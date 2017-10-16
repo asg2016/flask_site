@@ -42,11 +42,18 @@ def initdb_command():
     print('Initialized the database.')
 
 @app.route('/', methods=['GET'])
-def hello_world():
+def get_goods_list():
     db = get_db()
     cursor = db.execute('Select * From goods')
     entries = cursor.fetchall()
-    return render_template('example.html',entries)
+    return render_template('example.html',entries=entries)
+
+@app.route('/detail', methods=['GET'])
+def get_goods_detail():
+    db = get_db()
+    cursor = db.execute('Select * From goods Where id=1')
+    entries = cursor.fetchall()
+    return render_template('example.html', entries=entries)
 
 
 if __name__ == '__main__':
