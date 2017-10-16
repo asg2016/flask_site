@@ -43,8 +43,10 @@ def initdb_command():
 
 @app.route('/', methods=['GET'])
 def hello_world():
-    print(request.method)
-    return app.config['DATABASE']
+    db = get_db()
+    cursor = db.execute('Select * From goods')
+    entries = cursor.fetchall()
+    return render_template('example.html',entries)
 
 
 if __name__ == '__main__':
