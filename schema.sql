@@ -1,4 +1,4 @@
-drop table if exists ;
+drop table if exists 'goods';
 create table goods (
   id integer primary key autoincrement,
   title text not null,
