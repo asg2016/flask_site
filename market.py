@@ -1,13 +1,13 @@
 import os
 import sqlite3
 from market.config import *
-from flask import Flask, request, session, g, redirect, url_for, abort, \
+from flask import Flask, request, \
+    session, g, redirect, url_for, abort, \
     render_template, flash
 
 app = Flask(__name__)
 
 app.config.from_object(DebugConfig)
-app.config.from_envvar('FLASKR_SETTINGS', silent=True)
 
 def connect_db():
     """Connects to the specific database."""
@@ -48,10 +48,14 @@ def get_goods_list():
     entries = cursor.fetchall()
     return render_template('example.html',entries=entries)
 
-@app.route('/detail', methods=['GET'])
-def get_goods_detail():
+@app.route('/base', methods=['GET'])
+def get_base():
+    return render_template('base.html')
+
+@app.route('/<int:product_id>', methods=['GET'])
+def get_goods_detail(product_id):
     db = get_db()
-    cursor = db.execute('Select * From goods Where id=1')
+    cursor = db.execute('Select * From goods Where id=%s' % (product_id))
     entries = cursor.fetchall()
     return render_template('example.html', entries=entries)
 

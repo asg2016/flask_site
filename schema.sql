@@ -1,4 +1,4 @@
-drop table if exists 'goods';
+drop table if exists "goods";
 create table goods (
   id integer primary key autoincrement,
   title text not null,
@@ -18,3 +18,10 @@ create table goods (
   images text not null,
   price real no null
 );
+drop table if exists "images";
+create table images (
+    goods_id integer not null,
+    img_path text not null,
+    alt text not null,
+    type text not null
+)
