@@ -1,9 +1,13 @@
-import os
+"""
+Simplest example of the market-site on the sqlite database
+see shema in schema.sql
+"""
+
 import sqlite3
+
+from flask import Flask, g, render_template
+
 from market.config import *
-from flask import Flask, request, \
-    session, g, redirect, url_for, abort, \
-    render_template, flash
 
 app = Flask(__name__)
 
@@ -16,16 +20,23 @@ def connect_db():
     return rv
 
 def get_db():
-    """Opens a new database connection if there is none yet for the
+    """Opens a new database connection
+    if there is none yet for the
     current application context.
     """
     if not hasattr(g, 'sqlite_db'):
         g.sqlite_db = connect_db()
     return g.sqlite_db
 
+def exec_sql(sql):
+    db = get_db()
+    cursor = db.execute(sql)
+    return cursor.fetchall()
+
 @app.teardown_appcontext
 def close_db(error):
-    """Closes the database again at the end of the request."""
+    """Closes the database
+    again at the end of the request."""
     if hasattr(g, 'sqlite_db'):
         g.sqlite_db.close()
 
@@ -43,19 +54,16 @@ def initdb_command():
 
 @app.route('/', methods=['GET'])
 def get_goods_list():
-    db = get_db()
-    cursor = db.execute('Select * From goods Join images on goods.id = images.goods_id')
-    entries = cursor.fetchall()
+    sql='Select * From goods Join images on goods.id = images.goods_id'
+    entries = exec_sql(sql)
     return render_template('goods_list.html',entries=entries)
 
 @app.route('/<int:product_id>', methods=['GET'])
 def get_goods_detail(product_id):
-    db = get_db()
-    cursor = db.execute('Select * From goods Join images on goods.id = images.goods_id Where goods.id=%s' % (product_id))
-    entries = cursor.fetchall()
+    sql='Select * From goods Join images on goods.id = images.goods_id Where goods.id=%s' % (product_id)
+    entries = exec_sql(sql)
     return render_template('goods_detail.html', entries=entries)
 
 
 if __name__ == '__main__':
     app.run()
-
