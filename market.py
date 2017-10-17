@@ -44,20 +44,16 @@ def initdb_command():
 @app.route('/', methods=['GET'])
 def get_goods_list():
     db = get_db()
-    cursor = db.execute('Select * From goods')
+    cursor = db.execute('Select * From goods Join images on goods.id = images.goods_id')
     entries = cursor.fetchall()
-    return render_template('example.html',entries=entries)
-
-@app.route('/base', methods=['GET'])
-def get_base():
-    return render_template('base.html')
+    return render_template('goods_list.html',entries=entries)
 
 @app.route('/<int:product_id>', methods=['GET'])
 def get_goods_detail(product_id):
     db = get_db()
-    cursor = db.execute('Select * From goods Where id=%s' % (product_id))
+    cursor = db.execute('Select * From goods Join images on goods.id = images.goods_id Where goods.id=%s' % (product_id))
     entries = cursor.fetchall()
-    return render_template('example.html', entries=entries)
+    return render_template('goods_detail.html', entries=entries)
 
 
 if __name__ == '__main__':

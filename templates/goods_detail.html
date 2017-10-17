@@ -1,10 +1,65 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+{% extends "base.html" %}
+{% block body %}
 <body>
+<section id="content">
+    <div class="content-wrapper">
+        <div class="content-fluid">
+            {% for entry in entries %}
+                <div class="row">
+                    <div class="col-md-6">
+                        <h2>
+                            {{ entry.title }}
+                        </h2>
+                    </div>
+                    <div class="col-md-4">
 
+                    </div>
+                    <div class="col-md-2">
+                        <h3>{{ entry.price }}</h3>
+                    </div>
+                </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="/static/img/{{ entry.img_path }}" class="img-responsive" alt="{{entry.alt}}">
+                </div>
+                <div class="col-md-4">
+                        <ul>
+                            <li>Процессор: {{ entry.cpu }}</li>
+                            <li>Частота процессора: {{ entry.cpu_freq }}</li>
+                            <li>Объем оперативной памяти: {{ entry.ram }}</li>
+                            <li>Объем жёсткого диска: {{ entry.hdd }}</li>
+                            <li>Размер экрана: {{ entry.display }}</li>
+                            <li>Видеокарта: {{ entry.videocard }}</li>
+                            <li>Масса: {{ entry.weight }} кг</li>
+                            {% if entry.dvd == 0 %}
+                            <li>Оптический привод: нет</li>
+                            {% else %}
+                            <li>Оптический привод: есть</li>
+                            {% endif %}
+                            {% if entry.lte == 0 %}
+                            <li>4G LTE: нет</li>
+                            {% else %}
+                            <li>4G LTE: есть</li>
+                            {% endif %}
+                            {% if entry.bluetooth == 0 %}
+                            <li>Bluetooth: нет</li>
+                            {% else %}
+                            <li>Bluetooth: есть</li>
+                            {% endif %}
+                            {% if entry.wifi == 0 %}
+                            <li>WIFI: нет</li>
+                            {% else %}
+                            <li>WIFI: есть</li>
+                            {% endif %}
+                        </ul>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-warning">В корзину</button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
 </body>
-</html>
+{% endblock %}

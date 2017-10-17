@@ -1,17 +1,21 @@
 {% extends "base.html" %}
 {% block body %}
-<body>
 <section id="content">
     <div class="content-wrapper">
         <div class="content-fluid">
             {% for entry in entries %}
                 <div class="row">
                     <div class="col-md-4">
+                        <center>
                         <a href="/{{ entry.id }}">
-                            <img src="{{ image }}">
+                            <img src="/static/img/{{ entry.img_path }}" class="img-responsive" alt="{{entry.alt}}" width="190">
                         </a>
+                        </center>
                     </div>
                     <div class="col-md-6">
+                        <h4>
+                            <a href="/{{entry.id}}">{{ entry.title }}</a>
+                        </h4>
                         <ul>
                             <li>Процессор:{{ entry.cpu }}</li>
                             <li>Частота процессора:{{ entry.cpu_freq }}</li>
@@ -21,11 +25,11 @@
                         </ul>
                     </div>
                     <div class="col-md-2">
-                        <h3>{{ entry.price }}</h3>
+                        <h4>{{ entry.price }}</h4>
                     </div>
                 </div>
             {% endfor %}
         </div>
     </div>
 </section>
-</body>
+{% endblock %}
